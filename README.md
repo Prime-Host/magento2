@@ -1,1 +1,2 @@
-# magento2
+# php
+docker php container with ssh
