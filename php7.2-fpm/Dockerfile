@@ -17,6 +17,7 @@ RUN apt-get update \
     libmcrypt-dev \ 
     libpng-dev \ 
     libxslt1-dev \ 
+    libpq-dev \
     sudo
 
 # Configure the gd library
@@ -30,7 +31,10 @@ RUN docker-php-ext-install \
   gd \ 
   intl \ 
   mbstring \ 
-  pdo_mysql \ 
+  mysqli \
+  pdo_mysql \
+  pdo_pgsql \
+  pgsql \
   xsl \ 
   zip \ 
   soap \ 
@@ -57,8 +61,8 @@ RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.
  && echo "cd /usr/share/nginx/www" >> /root/.zshrc
 
 # config and startup files 
-ADD magento.ini /usr/local/etc/php/conf.d/magento.ini
-ADD ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD ./start.sh /bin/prime-host/start.sh
+ADD ../magento.ini /usr/local/etc/php/conf.d/magento.ini
+ADD ../supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD ../start.sh /bin/prime-host/start.sh
 
 CMD ["/bin/bash", "/bin/prime-host/start.sh"]
