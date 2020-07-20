@@ -61,14 +61,8 @@ RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.
  && echo "cd /usr/share/nginx/www" >> /root/.zshrc
 
 # config and startup files 
-<<<<<<< HEAD
 ADD ../magento.ini /usr/local/etc/php/conf.d/magento.ini
 ADD ../supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD ../start.sh /bin/prime-host/start.sh
-=======
-ADD ./magento.ini /usr/local/etc/php/conf.d/magento.ini
-ADD ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD ./start.sh /bin/prime-host/start.sh
->>>>>>> 9c3964beb47842095128bb45886e1e760733abec
 
 CMD ["/bin/bash", "/bin/prime-host/start.sh"]
