@@ -59,7 +59,11 @@ RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.
  && mkdir /root/container-scripts /root/container-scripts/prime-host /root/container-scripts/custom \
  && apt-get --purge autoremove -y \
  && echo "cd /usr/share/nginx/www" >> /root/.zshrc \
- && sed -i "s|access.log = /proc/self/fd/2|access.log = /proc/self/fd/1|g" /usr/local/etc/php-fpm.d/docker.conf
+ && sed -i "s|access.log = /proc/self/fd/2|access.log = /proc/self/fd/1|g" /usr/local/etc/php-fpm.d/docker.conf \
+ && sed -i 's/pm.max_children = 5/pm.max_children = 20/g' /usr/local/etc/php-fpm.d/www.conf \
+ && sed -i 's/pm.start_servers = 2/pm.start_servers = 5/g' /usr/local/etc/php-fpm.d/www.conf \
+ && sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 5/g' /usr/local/etc/php-fpm.d/www.conf \
+ && sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 10/g' /usr/local/etc/php-fpm.d/www.conf 
 
 # config and startup files 
 ADD ./magento.ini /usr/local/etc/php/conf.d/magento.ini
