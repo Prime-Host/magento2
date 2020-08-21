@@ -27,20 +27,25 @@ RUN docker-php-ext-configure \
 # Install required PHP extensions
 
 RUN docker-php-ext-install \
-  dom \ 
-  gd \ 
-  intl \ 
-  mbstring \ 
+  bcmath \
+  ctype \
+  dom \
+  gd \
+  hash \
+  iconv \
+  intl \
+  mbstring \
+  pdo_mysql \
+  simplexml \
+  soap \
+  xsl \
+  zip \
   mysqli \
-  pdo_mysql \ 
   pdo_pgsql \
   pgsql \
-  xsl \ 
-  zip \ 
-  soap \ 
-  bcmath \ 
-  pcntl \ 
-  sockets 
+  pcntl \
+  fileinfo \
+  sockets
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -69,5 +74,7 @@ RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.
 ADD ./magento.ini /usr/local/etc/php/conf.d/magento.ini
 ADD ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD ./start.sh /bin/prime-host/start.sh
+
+WORKDIR /usr/share/nginx/www
 
 CMD ["/bin/bash", "/bin/prime-host/start.sh"]
