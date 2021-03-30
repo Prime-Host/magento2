@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir /var/run/sshd /var/log/php-fpm \
  && apt-get update \
- && apt-get install -y cron python-setuptools wget curl git nano vim sudo unzip \ 
+ && apt-get install -y cron python-setuptools wget curl git nano vim sudo zip unzip \ 
     openssh-server openssl rsync zsh supervisor mariadb-client
 
 # Install dependencies
