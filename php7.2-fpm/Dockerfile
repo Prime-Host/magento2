@@ -5,27 +5,38 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir /var/run/sshd /var/log/php-fpm \
  && apt-get update \
- && apt-get install -y cron python-setuptools wget curl git nano vim sudo zip unzip \ 
-    openssh-server openssl rsync zsh supervisor mariadb-client
-
-# Install dependencies
-RUN apt-get update \
-  && apt-get install -y \
-    libfreetype6-dev \ 
-    libicu-dev \ 
-    libjpeg62-turbo-dev \ 
-    libmcrypt-dev \ 
-    libpng-dev \ 
-    libxslt1-dev \ 
+ && apt-get install -y cron \ 
+    python-setuptools \
+    wget \
+    curl \
+    git \
+    nano \
+    vim \
+    sudo \
+    zip \
+    unzip \ 
+    openssh-server \
+    openssl \
+    rsync \
+    zsh \
+    supervisor \
+    mariadb-client \
+    libfreetype6-dev \
+    libicu-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    libxslt1-dev \
     libpq-dev \
-    sudo
+    sudo \
+    libmagickwand-dev \
+ && pecl install apcu imagick
 
 # Configure the gd library
 RUN docker-php-ext-configure \
   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 # Install required PHP extensions
-
 RUN docker-php-ext-install \
   bcmath \
   ctype \
@@ -46,6 +57,12 @@ RUN docker-php-ext-install \
   pcntl \
   fileinfo \
   sockets
+
+# Install opcache & enable apcu, imagick
+RUN docker-php-ext-configure opcache --enable-opcache \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-enable apcu imagick \
+    && rm -r /var/lib/apt/lists/*
 
 # Install composer
 COPY --from=composer:1 /usr/bin/composer /usr/local/bin/composer
